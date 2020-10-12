@@ -1,0 +1,76 @@
+﻿@page "/Accounts"
+
+@using BlazorAppWithCockroachDB.Model;
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject IJSRuntime js
+
+<h3>All Accounts</h3>
+
+@if (AllAccounts.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Available balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in AllAccounts)
+            {
+                <tr>
+                    <td><a href="/Account/@account.id"> @account.name</a></td>
+                    <td>$@account.balance</td>
+                    <td><a href="/EditAccount/@account.id" class="btn btn-info">Edit</a></td>
+                    <td><a @onclick="(() => DeleteAccount(account.id))" class="btn btn-danger">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="/CreateAccount">Create an Account</a>
+}
+
+
+
+@code {
+    private List<Account> AllAccounts = new List<Account>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        AllAccounts = await Http.GetFromJsonAsync<List<Account>>("Account/GetAll");
+    }
+
+    public async Task DeleteAccount(int? id)
+    {
+        bool confirm = await js.InvokeAsync<bool>("confirm", "Do you want to delete this account?");
+        if (confirm)
+        {
+            var response = await Http.DeleteAsync($"Account/Delete/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseText = await response.Content.ReadAsStringAsync();
+
+                if (responseText == "Account deleted successfully")
+                {
+                    NavigationManager.NavigateTo("/");
+                }
+                else
+                {
+                    NavigationManager.NavigateTo("/");
+                }
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/");
+            }
+        }
+    }
+}

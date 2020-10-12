@@ -1,0 +1,48 @@
+﻿@page "/Account/{Id:int}"
+
+@using BlazorAppWithCockroachDB.Model;
+@using Newtonsoft.Json
+
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+
+
+<h3>@Account.name Account Details</h3>
+
+<br />
+<p>Account balance: <em>$@Account.balance</em></p>
+<br />
+Error message: <span>@errorMessage</span>    
+<br />
+<a href="/Accounts">Back to List</a>
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private string errorMessage = "";
+
+    public Account Account { get; set; } = new Account();
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (Id == null)
+        {
+            NavigationManager.NavigateTo("Accounts");
+        }
+
+        var response = await Http.GetAsync($"Account/Get/{Id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            errorMessage = "none";
+            var responseText = await response.Content.ReadAsStringAsync();
+            Account = JsonConvert.DeserializeObject<Account>(responseText);
+        }
+        else
+        {
+            errorMessage = await response.Content.ReadAsStringAsync();
+        }
+    }
+}

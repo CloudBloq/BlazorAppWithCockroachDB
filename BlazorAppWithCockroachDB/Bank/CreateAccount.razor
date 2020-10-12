@@ -1,0 +1,65 @@
+﻿@page "/CreateAccount"
+
+@using BlazorAppWithCockroachDB.Model;
+@using Newtonsoft.Json
+
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+
+<h3>Create an Account</h3>
+
+<div class="row">
+    <EditForm Model="@accountModel" OnValidSubmit="@InsertAccount">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            Balance: <InputNumber id="balance" @bind-Value="accountModel.balance" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            Name: <InputText id="name" @bind-Value="accountModel.name" class="form-control" />
+        </div>
+
+        <br />
+
+        <button type="submit" class="btn btn-success">Submit</button>
+    </EditForm>
+
+</div>
+
+<br />
+<br />
+<a href="/Accounts">Back to List</a>
+
+
+@code {
+    private AccountModel accountModel = new AccountModel();
+
+    private async Task InsertAccount()
+    {
+        int lastAccountId = await Http.GetFromJsonAsync<int>("Account/GetLastAccountId");
+        int newAccountId = lastAccountId + 1;
+
+        Account account = new Account
+        {
+            id = newAccountId,
+            balance = accountModel.balance,
+            name = accountModel.name
+        };
+
+        var response = await Http.PostAsJsonAsync("Account/Create", account);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseText = await response.Content.ReadAsStringAsync();
+            Account mewAccount = JsonConvert.DeserializeObject<Account>(responseText);
+            NavigationManager.NavigateTo($"EditAccount/{mewAccount.id}");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("CreateAccount");
+        }
+
+    }
+}

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppWithCockroachDB", "BlazorAppWithCockroachDB\BlazorAppWithCockroachDB.csproj", "{8C83D630-D34E-4EEC-92A9-B26BF1346020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppWithCockroachDB", "BlazorAppWithCockroachDB\BlazorAppWithCockroachDB.csproj", "{8C83D630-D34E-4EEC-92A9-B26BF1346020}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CockroachDbLib", "CockroachDbLib\CockroachDbLib.csproj", "{77AB855E-7B90-4D21-9295-CCF2F21B5C91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CockroachDbLib", "CockroachDbLib\CockroachDbLib.csproj", "{77AB855E-7B90-4D21-9295-CCF2F21B5C91}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppWithCockroachDB.Api", "BlazorAppWithCockroachDB.Api\BlazorAppWithCockroachDB.Api.csproj", "{F28C6A39-E336-40A9-AFDF-A4DC7D81CCBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{77AB855E-7B90-4D21-9295-CCF2F21B5C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77AB855E-7B90-4D21-9295-CCF2F21B5C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77AB855E-7B90-4D21-9295-CCF2F21B5C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F28C6A39-E336-40A9-AFDF-A4DC7D81CCBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F28C6A39-E336-40A9-AFDF-A4DC7D81CCBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F28C6A39-E336-40A9-AFDF-A4DC7D81CCBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F28C6A39-E336-40A9-AFDF-A4DC7D81CCBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
